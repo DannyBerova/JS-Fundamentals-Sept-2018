@@ -131,9 +131,9 @@ function secretData (arr) {
     function maskText(match) {
         return '|'.repeat(match.length);
     }
-
+    
+    let clientPattern = /(\*[A-Z][a-zA-Z]*)(?=[ \t]|$)|(\+[\d-]{10})(?=[ \t]|$)|(![a-zA-Z\d]+)(?=[ \t]|$)|(_[a-zA-Z\d]+)(?=[ \t]|$)/g;
     for (let line of arr) {
-        let clientPattern = /(\*[A-Z][a-zA-Z]*)(?=[ \t]|$)|(\+[\d-]{10})(?=[ \t]|$)|(![a-zA-Z\d]+)(?=[ \t]|$)|(_[a-zA-Z\d]+)(?=[ \t]|$)/g;
         line = line.replace(clientPattern, maskText);
         console.log(line);
     }  
