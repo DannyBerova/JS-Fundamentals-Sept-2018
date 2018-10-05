@@ -64,7 +64,7 @@ console.log(cathAllNumbers(['123a456',
 //problem 7 - Find Variable Names in Sentence
 function findVariableNames(input) {
     let result = [];
-    let reg = /_([A-Za-z0-9]+)/g;
+    let reg = /\b_([a-zA-Z\d]+)\b/g;
     let exec;
     while(exec = reg.exec(input)) {
         result.push(exec[1]);
