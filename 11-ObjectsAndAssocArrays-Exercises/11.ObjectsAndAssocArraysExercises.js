@@ -345,10 +345,10 @@ function arenaTier(input) {
                            if(first[totalScore] > second[totalScore]) {
                                delete pool[secondGl];
                                found = true;
-                           } else {
-                               delete pool[firstGl];
-                               found = true;
-                           }
+                            } else if(first[totalScore] < second[totalScore]) {
+                                delete pool[firstGl];
+                                found = true;
+                            }
                         }
                     });
             } else {
