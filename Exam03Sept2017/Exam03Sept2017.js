@@ -75,6 +75,7 @@ processFood(
 );
 
 //problem 2 - Expedition
+//credits - RAstardzhiev at GitHub
 function findPath(matrix, secondaryMAtrix, overlayCoordinates, startPosition) {
     let isInMatrix = (row, col) => row >= 0 && row < matrix.length && col >= 0 && col < matrix[0].length;
     overlayMatrices();
@@ -174,202 +175,6 @@ function findPath(matrix, secondaryMAtrix, overlayCoordinates, startPosition) {
         }
     }
 }
-function findPath(matrix, secondMatr, coords, startCoords) {
-    let isInMatrix = (row, col) => row >= 0 && row < matrix.length && col >= 0 && col < matrix[0].length;
-
-    function overlayMatrices() {
-        for (const line of coords) {
-            let [startingRow, startingCol] = line;
-
-            for (let i = 0; i < secondMatr.length; i++) {
-                for (let j = 0; j < secondMatr[i].length; j++) {
-                    if (secondMatr[i][j] === 1) {
-                        let currentRow = i + startingRow;
-                        let currentCol = j + startingCol;
-
-                        if (isInMatrix(currentRow, currentCol)) {
-                            matrix[i + startingRow][j + startingCol]++;
-                            matrix[i + startingRow][j + startingCol] %= 2;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    overlayMatrices();
-    
-    let x = +startCoords[0];
-    let y = +startCoords[1];
-    let finalX = 0;
-    let finalY = 0;
-    let previous = [x, y];
-    let isPrevious = false;
-    let blockX = 0;
-    let blockY = 0;
-    let steps = 0;
-    for (let row = x; row < matrix.length; row++) {
-        if(blockX !== 0 || blockY !== 0) {
-            break;
-        }
-        for (let col = y; col < matrix[0].length; col++) {
-            if(steps !== 0 ) {
-                isPrevious = true;
-            }
-            if(isPrevious) {
-                if ( row - 1 >= 0 && matrix[row - 1][col] === 0 && (previous[0])+1 !== row ) {
-                    previous = [row, col];
-                    steps++;
-                    row--;
-                    --col;
-                    if(row === 0) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Top');
-                        return;
-                    } 
-                } else if (row + 1 < matrix.length && matrix[row + 1][col] === 0 && (previous[0])-1 !== row) {
-                    previous = [row, col];
-                    steps++;
-                    row++;
-                    --col;
-                    if(row === matrix.length - 1) {
-                        finalX = row;
-                        finalY = col + 1;
-                        console.log(steps + 1);
-                        console.log('Bottom');
-                        return;
-                    } 
-                
-                } else if(col - 1 >= 0 && matrix[row][col - 1] === 0 && (previous[1])+1 !== col) {
-                    previous = [row, col];
-                    steps++;
-                    col--;
-                    if(col === 0) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Left');
-                        return;
-                    } else {
-                        col--;
-                        //break;
-                    }
-                    
-                } else if (col + 1 < matrix[0].length && matrix[row][col+1] === 0 && (previous[1])-1 !== col) {
-                    previous = [row, col];
-                    steps++;
-                    col++;
-                    if(col === matrix[0].length - 1) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Right');
-                        return;
-                    } else {
-                        col--;
-                        //break;
-                    }
-                } else {
-                    blockX = row;
-                    blockY = col;
-                    console.log(steps + 1);
-                    let quadrant = 0;
-                    let halfX = matrix.length / 2; 
-                    let halfY = matrix[0].length / 2;
-                    if(blockX < halfX && blockY < halfY) {
-                        quadrant = 2;
-                    } else if (blockX < halfX && blockY >=halfY ) {
-                        quadrant = 1;
-                    } else if (blockX >= halfX && blockY < halfY) {
-                        quadrant = 3;
-                    } else if (blockX >= halfX && blockY >= halfY) {
-                        quadrant = 4;
-                    }
-                    console.log(`Dead end ${quadrant}`);
-                    return;
-                }
-            } else {
-                if ( row - 1 >= 0 && matrix[row - 1][col] === 0) {
-                    previous = [row, col];
-                    steps++;
-                    row--;
-                    --col;
-                    if(row === 0) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Top');
-                        return;
-                    } 
-                } else if (row + 1 < matrix.length && matrix[row + 1][col] === 0) {
-                    previous = [row, col];
-                    steps++;
-                    row++;
-                    --col;
-                    if(row === matrix.length - 1) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Bottom');
-                        return;
-                    } 
-                
-                } else if(col - 1 >= 0 && matrix[row][col - 1] === 0) {
-                    previous = [row, col];
-                    steps++;
-                    col--;
-                    if(col === 0) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Left');
-                        return;
-                    } else {
-                        col++;
-                        //break;
-                    }
-                    
-                } else if (col + 1 < matrix[0].length && matrix[row][col+1] === 0) {
-                    previous = [row, col];
-                    steps++;
-                    col++;
-                    if(col === matrix[0].length - 1) {
-                        finalX = row;
-                        finalY = col;
-                        console.log(steps + 1);
-                        console.log('Right');
-                        return;
-                    } else {
-                        col--;
-                        //break;
-                    }
-                } else {
-                    blockX = row;
-                    blockY = col;
-                    console.log(steps + 1);
-                    let quadrant = 0;
-                    let halfX = matrix.length / 2; 
-                    let halfY = matrix[0].length / 2;
-                    if(blockX < halfX && blockY < halfY) {
-                        quadrant = 2;
-                    } else if (blockX < halfX && blockY >=halfY ) {
-                        quadrant = 1;
-                    } else if (blockX >= halfX && blockY < halfY) {
-                        quadrant = 3;
-                    } else if (blockX >= halfX && blockY >= halfY) {
-                        quadrant = 4;
-                    }
-                    console.log(`Dead end ${quadrant}`);
-                    return;
-                }
-            }
-            
-        }
-        
-    }
-
-}
 
 findPath(
 [[1, 1, 0, 1],
@@ -433,6 +238,7 @@ console.log(lost(
     ));
 
 //problem 4 - Rest House
+//credits - RAstardzhiev at GitHub
 function orderGuests(rooms, guestPairs) {
     for (let i = 0; i < rooms.length; i++) {
         rooms[i].guests = [];
